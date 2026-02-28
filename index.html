@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Steward AI — Your Home, Handled</title>
+<meta name="description" content="AI home concierge for busy homeowners. Something breaks, you text Steward. We research vendors, compare quotes, and schedule the appointment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  color-scheme: light only;
+  --ink: #1a1a1f;
+  --warm: #f7f5f0;
+  --cream: #faf8f4;
+  --cream-alt: #f3efe7;
+  --stone: #ddd8ce;
+  --sage: #4a6340;
+  --sage-deep: #3d5434;
+  --heading: #1a1a1f;
+  --body: #3a3a40;
+  --body-secondary: #555550;
+  --body-light: #77736a;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+}
+
+html { scroll-behavior: smooth; background: #faf8f4; }
+
+body {
+  font-family: var(--sans); color: var(--body);
+  background: #faf8f4 !important;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  font-size: 16px; color-scheme: light only;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim { opacity: 0; }
+.anim.vis { animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.anim.d1 { animation-delay: 0.1s; }
+.anim.d2 { animation-delay: 0.2s; }
+.anim.d3 { animation-delay: 0.3s; }
+.anim.d4 { animation-delay: 0.4s; }
+
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.4s ease; background: rgba(250, 248, 244, 0.6);
+}
+nav.scrolled {
+  background: rgba(250, 248, 244, 0.97);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--stone); padding: 14px 24px;
+}
+.nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--ink); }
+.nav-logo span { color: var(--sage-deep); }
+.nav-cta {
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #fff; background: var(--ink); border: none;
+  padding: 11px 22px; cursor: pointer; transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-cta:hover { background: var(--sage-deep); }
+
+.hero {
+  min-height: 100svh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  padding: 100px 24px 64px; position: relative; background: #faf8f4;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 10%; right: 10%;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--stone), transparent);
+}
+.hero-eyebrow {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 28px;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 400; line-height: 1.08; color: var(--heading);
+  max-width: 800px; margin-bottom: 28px;
+}
+.hero h1 em { font-style: italic; color: var(--sage); }
+.hero-sub {
+  font-size: 1.1rem; line-height: 1.7; color: var(--body-secondary);
+  max-width: 500px; margin-bottom: 40px;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; background: var(--ink); border: none;
+  padding: 18px 40px; cursor: pointer; transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero-cta:hover {
+  background: var(--sage-deep); transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(26, 26, 31, 0.12);
+}
+.hero-cta svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+.hero-cta:hover svg { transform: translateX(4px); }
+
+.problem { padding: 100px 24px; max-width: 900px; margin: 0 auto; background: #faf8f4; }
+.problem-number {
+  font-family: var(--serif); font-size: 4rem; font-weight: 300;
+  color: var(--stone); line-height: 1; margin-bottom: 16px;
+}
+.problem h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400; line-height: 1.3; color: var(--heading); margin-bottom: 28px;
+}
+.problem p { font-size: 1.05rem; line-height: 1.8; color: var(--body-secondary); max-width: 680px; }
+.stat-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--stone);
+}
+.stat-value {
+  font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 600; color: var(--sage); line-height: 1; margin-bottom: 8px;
+}
+.stat-label { font-size: 0.88rem; color: var(--body-secondary); line-height: 1.5; }
+
+.how {
+  background: var(--cream-alt); border-top: 1px solid var(--stone);
+  border-bottom: 1px solid var(--stone); padding: 100px 24px;
+}
+.how-inner { max-width: 1100px; margin: 0 auto; }
+.how-eyebrow {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 20px;
+}
+.how h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400; color: var(--heading); margin-bottom: 56px; max-width: 600px;
+}
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.step { padding: 32px 0; border-top: 2px solid var(--stone); }
+.step-num {
+  font-family: var(--serif); font-size: 3rem; font-weight: 300;
+  color: var(--stone); margin-bottom: 20px; line-height: 1;
+}
+.step h3 {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 600;
+  color: var(--heading); margin-bottom: 12px;
+}
+.step p { font-size: 0.98rem; line-height: 1.7; color: var(--body-secondary); }
+
+.scenario { padding: 100px 24px; max-width: 900px; margin: 0 auto; background: #faf8f4; }
+.scenario h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400; color: var(--heading); margin-bottom: 48px;
+}
+.timeline { position: relative; padding-left: 40px; }
+.timeline::before {
+  content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+  width: 1px; background: var(--stone);
+}
+.tl-item { position: relative; padding-bottom: 36px; }
+.tl-item::before {
+  content: ''; position: absolute; left: -37px; top: 8px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--sage); border: 2px solid #faf8f4;
+  box-shadow: 0 0 0 2px var(--sage);
+}
+.tl-time {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 6px;
+}
+.tl-title {
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  color: var(--heading); margin-bottom: 6px;
+}
+.tl-desc { font-size: 0.95rem; color: var(--body-secondary); line-height: 1.65; }
+
+.pricing {
+  background: var(--cream-alt); border-top: 1px solid var(--stone); padding: 100px 24px;
+}
+.pricing-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+.pricing-eyebrow {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 20px;
+}
+.pricing h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400; color: var(--heading); margin-bottom: 16px;
+}
+.pricing-sub {
+  font-size: 1.02rem; color: var(--body-secondary); margin-bottom: 56px;
+  max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.7;
+}
+.pricing-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;
+}
+.price-card {
+  background: #fff; border: 1px solid var(--stone);
+  padding: 36px 28px; display: flex; flex-direction: column;
+  transition: all 0.3s ease;
+}
+.price-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(26, 26, 31, 0.07);
+}
+.price-card.pro { background: #eae7e0; border-color: #dad6cd; }
+.price-card.pro .card-divider { background: #cdc8be; }
+.price-card.pro .card-btn.secondary { background: #2a2a2f; }
+.price-card.pro .card-btn.secondary:hover { background: var(--sage-deep); }
+.price-card.feat {
+  background: var(--ink); color: #fff; border-color: var(--ink); position: relative;
+}
+.price-card.feat .card-tier { color: #8fa888; }
+.price-card.feat .card-tagline { color: rgba(255, 255, 255, 0.85); }
+.price-card.feat .card-price { color: #fff; }
+.price-card.feat .card-price-period { color: rgba(255, 255, 255, 0.6); }
+.price-card.feat .card-price-annual { color: #8fa888; }
+.price-card.feat .card-features li { color: rgba(255, 255, 255, 0.75); }
+.price-card.feat .card-features li::before { color: #8fa888; }
+.price-card.feat .card-divider { background: rgba(255, 255, 255, 0.12); }
+.feat-badge {
+  position: absolute; top: -1px; right: 28px;
+  background: var(--sage); color: #fff;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; padding: 6px 14px;
+}
+.card-tier {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 16px;
+}
+.card-price {
+  font-family: var(--serif); font-size: 2.8rem; font-weight: 500;
+  color: var(--heading); line-height: 1; margin-bottom: 4px;
+}
+.card-price-period { font-size: 0.85rem; color: var(--body-light); margin-bottom: 6px; }
+.card-price-annual {
+  font-size: 0.82rem; color: var(--sage); font-weight: 600;
+  margin-bottom: 24px; min-height: 1.2em;
+}
+.card-tagline {
+  font-family: var(--serif); font-size: 1.08rem; font-style: italic;
+  color: var(--body-secondary); margin-bottom: 20px;
+}
+.card-divider { height: 1px; background: var(--stone); margin-bottom: 20px; }
+.card-features { list-style: none; flex: 1; margin-bottom: 28px; }
+.card-features li {
+  font-size: 0.92rem; line-height: 1.5; color: var(--body-secondary);
+  padding: 5px 0 5px 22px; position: relative;
+}
+.card-features li::before {
+  content: '\2713'; position: absolute; left: 0;
+  color: var(--sage); font-weight: 700; font-size: 0.8rem;
+}
+.card-btn {
+  width: 100%; padding: 15px; font-family: var(--sans);
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; border: none; cursor: pointer;
+  transition: all 0.3s ease; -webkit-tap-highlight-color: transparent;
+}
+.card-btn.primary { background: #fff; color: var(--ink); }
+.card-btn.primary:hover { background: var(--cream); }
+.card-btn.secondary { background: var(--ink); color: #fff; }
+.card-btn.secondary:hover { background: var(--sage-deep); }
+.card-btn.outline { background: transparent; color: var(--heading); border: 1px solid var(--stone); }
+.card-btn.outline:hover { background: var(--ink); color: #fff; }
+
+.waitlist { padding: 100px 24px; max-width: 680px; margin: 0 auto; text-align: center; background: #faf8f4; }
+.waitlist h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400; color: var(--heading); margin-bottom: 16px;
+}
+.waitlist > p { font-size: 1.02rem; color: var(--body-secondary); margin-bottom: 36px; line-height: 1.7; }
+.waitlist-form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto 20px; }
+.waitlist-form input {
+  flex: 1; padding: 15px 18px; font-family: var(--sans); font-size: 1rem;
+  border: 1px solid var(--stone); background: #fff; color: var(--ink);
+  outline: none; transition: border-color 0.3s ease; min-width: 0;
+}
+.waitlist-form input::placeholder { color: var(--body-light); }
+.waitlist-form input:focus { border-color: var(--sage); }
+.waitlist-form button {
+  padding: 15px 28px; font-family: var(--sans); font-size: 0.82rem;
+  font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--ink); color: #fff; border: none;
+  cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.waitlist-form button:hover { background: var(--sage-deep); }
+.waitlist-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+.waitlist-note { font-size: 0.82rem; color: var(--body-light); }
+.waitlist-error { display: none; font-size: 0.88rem; color: #b44; margin-top: 12px; }
+.success-msg {
+  display: none; font-family: var(--serif); font-size: 1.3rem;
+  font-style: italic; color: var(--sage); margin-top: 20px;
+}
+
+footer {
+  border-top: 1px solid var(--stone); padding: 40px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1200px; margin: 0 auto; background: #faf8f4;
+}
+.footer-logo { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: var(--ink); }
+.footer-logo span { color: var(--sage-deep); }
+.footer-links { display: flex; gap: 28px; }
+.footer-links a {
+  font-size: 0.82rem; color: var(--body-light); text-decoration: none;
+  letter-spacing: 0.05em; transition: color 0.3s ease;
+}
+.footer-links a:hover { color: var(--ink); }
+
+@media (max-width: 768px) {
+  .hero { padding: 80px 20px 48px; min-height: 85svh; }
+  .hero-sub { font-size: 1.05rem; margin-bottom: 32px; }
+  .hero-eyebrow { margin-bottom: 20px; }
+  .hero-cta { padding: 16px 32px; width: 100%; justify-content: center; }
+  .problem { padding: 72px 20px; }
+  .stat-row { grid-template-columns: 1fr; gap: 20px; }
+  .stat { display: flex; align-items: baseline; gap: 12px; }
+  .stat-value { font-size: 2rem; flex-shrink: 0; }
+  .how { padding: 72px 20px; }
+  .how h2 { margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 8px; }
+  .step { padding: 24px 0; }
+  .step-num { font-size: 2.4rem; margin-bottom: 12px; }
+  .scenario { padding: 72px 20px; }
+  .scenario h2 { margin-bottom: 36px; }
+  .timeline { padding-left: 32px; }
+  .tl-item::before { left: -29px; }
+  .pricing { padding: 72px 20px; }
+  .pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; gap: 16px; }
+  .card-price { font-size: 2.4rem; }
+  .waitlist { padding: 72px 20px; }
+  .waitlist-form { flex-direction: column; max-width: 100%; }
+  .waitlist-form button { width: 100%; padding: 16px; }
+  footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 20px; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2.4rem; }
+  .hero-eyebrow { font-size: 0.72rem; margin-bottom: 20px; }
+  .nav-logo { font-size: 1.25rem; }
+  .nav-cta { padding: 10px 18px; font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">Steward<span>AI</span></div>
+  <button class="nav-cta" onclick="goToWaitlist()">Join Waitlist</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow anim vis d1">AI Home Concierge</div>
+  <h1 class="anim vis d2">Your home,<br><em>handled.</em></h1>
+  <p class="hero-sub anim vis d3">Something breaks. You text Steward. We research the best vendors, compare quotes, and schedule the appointment. You approve with one tap.</p>
+  <button class="hero-cta anim vis d4" onclick="goToWaitlist()">
+    Get Early Access
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</section>
+
+<section class="problem">
+  <div class="problem-number anim">01</div>
+  <h2 class="anim">You didn't buy a home to spend weekends Googling plumbers.</h2>
+  <p class="anim">Every time something breaks, it's the same routine. An hour reading reviews you can't fully trust. Three calls to contractors who don't pick up. A quote that might be fair or might be double the going rate. You handle it because no one else will. Steward changes that.</p>
+  <div class="stat-row">
+    <div class="stat anim">
+      <div class="stat-value">45&#8211;120</div>
+      <div class="stat-label">minutes per incident researching, calling, comparing, scheduling</div>
+    </div>
+    <div class="stat anim d1">
+      <div class="stat-value">8&#8211;15</div>
+      <div class="stat-label">maintenance incidents per year for a typical home</div>
+    </div>
+    <div class="stat anim d2">
+      <div class="stat-value">$2,000+</div>
+      <div class="stat-label">in annual time value for someone earning $100+/hour</div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="how-inner">
+    <div class="how-eyebrow anim">How It Works</div>
+    <h2 class="anim">Three steps. Two minutes of your time.</h2>
+    <div class="steps">
+      <div class="step anim">
+        <div class="step-num">01</div>
+        <h3>Describe the issue</h3>
+        <p>Text or type what's happening. "Water heater is leaking." "AC isn't cooling." Snap a photo if it helps. That's all you do.</p>
+      </div>
+      <div class="step anim d1">
+        <div class="step-num">02</div>
+        <h3>We handle the rest</h3>
+        <p>Steward researches the highest-rated vendors in your area, analyzes reviews for red flags, estimates fair pricing, and contacts them on your behalf.</p>
+      </div>
+      <div class="step anim d2">
+        <div class="step-num">03</div>
+        <h3>You approve</h3>
+        <p>Review the recommendation with transparent reasoning. Tap approve. The appointment is scheduled. Rate the vendor after and Steward gets smarter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scenario">
+  <h2 class="anim">Saturday morning. Your water heater dies.</h2>
+  <div class="timeline">
+    <div class="tl-item anim">
+      <div class="tl-time">8:02 AM</div>
+      <div class="tl-title">You text Steward</div>
+      <div class="tl-desc">"No hot water. Think the water heater is done. It's a 50-gallon Rheem in the garage, about 10 years old."</div>
+    </div>
+    <div class="tl-item anim d1">
+      <div class="tl-time">8:04 AM</div>
+      <div class="tl-title">Steward confirms</div>
+      <div class="tl-desc">"On it. Your Rheem is past its expected lifespan. I'll research replacement options and get quotes. Expect a recommendation within a few hours."</div>
+    </div>
+    <div class="tl-item anim d2">
+      <div class="tl-time">10:30 AM</div>
+      <div class="tl-title">Your recommendation arrives</div>
+      <div class="tl-desc">"Henderson Plumbing Co &#8212; 4.8 stars, 210 reviews, specializes in water heaters. Available Monday AM. Estimated cost: $1,100&#8211;$1,350, in line with the market rate for your area."</div>
+    </div>
+    <div class="tl-item anim d3">
+      <div class="tl-time">10:31 AM</div>
+      <div class="tl-title">You tap "approve"</div>
+      <div class="tl-desc">Steward schedules the appointment. You go back to your Saturday. Total time spent: 3 minutes.</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-eyebrow anim">Pricing</div>
+    <h2 class="anim">Less than your last service call.</h2>
+    <p class="pricing-sub anim">Steward pays for itself the first time you skip the hour-long Google-and-call routine.</p>
+    <div class="pricing-cards">
+      <div class="price-card anim">
+        <div class="card-tier">Free</div>
+        <div class="card-price">$0</div>
+        <div class="card-price-period">forever</div>
+        <div class="card-price-annual">&nbsp;</div>
+        <div class="card-tagline">Know your home</div>
+        <div class="card-divider"></div>
+        <ul class="card-features">
+          <li>Unlimited homes and systems</li>
+          <li>AI maintenance calendar</li>
+          <li>Proactive notifications</li>
+          <li>System health tracking</li>
+          <li>1 free concierge event</li>
+        </ul>
+        <button class="card-btn outline" onclick="goToWaitlist()">Get Started</button>
+      </div>
+      <div class="price-card pro anim d1">
+        <div class="card-tier">Pro</div>
+        <div class="card-price">$39</div>
+        <div class="card-price-period">per month, per home</div>
+        <div class="card-price-annual">or $349/year (save 25%)</div>
+        <div class="card-tagline">Do the homework for me</div>
+        <div class="card-divider"></div>
+        <ul class="card-features">
+          <li>Everything in Free</li>
+          <li>Unlimited vendor research</li>
+          <li>Review pattern analysis</li>
+          <li>Pricing intelligence by zip</li>
+          <li>Personal vendor Rolodex</li>
+          <li>Monthly home health reports</li>
+        </ul>
+        <button class="card-btn secondary" onclick="goToWaitlist()">Join Waitlist</button>
+      </div>
+      <div class="price-card feat anim d2">
+        <div class="feat-badge">Most Popular</div>
+        <div class="card-tier">Premium</div>
+        <div class="card-price">$79</div>
+        <div class="card-price-period">per month, per home</div>
+        <div class="card-price-annual">or $699/year (save 26%)</div>
+        <div class="card-tagline">Handle it for me</div>
+        <div class="card-divider"></div>
+        <ul class="card-features">
+          <li>Everything in Pro</li>
+          <li>AI vendor communication</li>
+          <li>Scheduling and follow-ups</li>
+          <li>Dedicated phone number</li>
+          <li>Priority research queue</li>
+          <li>White glove onboarding</li>
+        </ul>
+        <button class="card-btn primary" onclick="goToWaitlist()">Join Waitlist</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="waitlist" id="waitlist">
+  <h2 class="anim">Stop Googling. Start living.</h2>
+  <p class="anim">Steward AI is launching soon in Las Vegas. Join the waitlist for early access and founding member pricing.</p>
+  <form class="waitlist-form anim" id="waitlistForm" onsubmit="handleSubmit(event)">
+    <input type="email" placeholder="Your email address" required id="emailInput" autocomplete="email">
+    <button type="submit" id="submitBtn">Join Waitlist</button>
+  </form>
+  <p class="waitlist-note" id="waitlistNote">No spam. We'll only email you when we launch.</p>
+  <p class="waitlist-error" id="errorMsg"></p>
+  <p class="success-msg" id="successMsg">You're on the list. We'll be in touch soon.</p>
+</section>
+
+<footer>
+  <div class="footer-logo">Steward<span>AI</span></div>
+  <div class="footer-links">
+    <a href="#pricing">Pricing</a>
+    <a href="mailto:hello@stewardhome.ai">Contact</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var SUPABASE_URL = 'https://vvlypugodfrrfusjzzrw.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_xTo7yRRAptiY5nyer-sUxw_IKc3-p3u';
+
+var sb = null;
+try {
+  if (typeof supabase !== 'undefined') {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+} catch(e) { console.log('Supabase init skipped'); }
+
+var navEl = document.getElementById('nav');
+window.addEventListener('scroll', function() {
+  navEl.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+function goToWaitlist() {
+  document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+}
+
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.anim:not(.vis)').forEach(function(el) { obs.observe(el); });
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  var form = document.getElementById('waitlistForm');
+  var btn = document.getElementById('submitBtn');
+  var err = document.getElementById('errorMsg');
+  var email = document.getElementById('emailInput').value.trim();
+  var params = new URLSearchParams(window.location.search);
+
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Joining...';
+
+  try {
+    if (sb) {
+      var result = await sb.from('waitlist').insert({
+        email: email,
+        source: window.location.href,
+        referrer: document.referrer || null,
+        utm_source: params.get('utm_source'),
+        utm_medium: params.get('utm_medium'),
+        utm_campaign: params.get('utm_campaign')
+      });
+      if (result.error && result.error.code !== '23505') throw result.error;
+    } else {
+      console.log('Waitlist signup:', email, new Date().toISOString());
+    }
+    form.style.display = 'none';
+    document.getElementById('waitlistNote').style.display = 'none';
+    err.style.display = 'none';
+    var msg = document.getElementById('successMsg');
+    msg.style.display = 'block';
+    msg.style.animation = 'fadeUp 0.6s ease forwards';
+  } catch (error) {
+    console.error('Signup error:', error);
+    err.textContent = 'Something went wrong. Please try again.';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Join Waitlist';
+  }
+}
+</script>
+</body>
+</html>
