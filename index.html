@@ -336,3 +336,12 @@ async function handleSubmit(e) {
       if (result.error && result.error.code !== '23505') throw result.error;
     } else { console.log('Waitlist signup:', email, new Date().toISOString()); }
     window.location.href = '/welcome.html';
+  } catch (error) {
+    console.error('Signup error:', error);
+    err.textContent = 'Something went wrong. Please try again.';
+    err.style.display = 'block'; btn.disabled = false; btn.textContent = 'Join Waitlist';
+  }
+}
+</script>
+</body>
+</html>
