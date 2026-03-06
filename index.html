@@ -311,7 +311,7 @@ footer { border-top: 1px solid var(--stone); padding: 40px 24px; display: flex; 
     <a href="mailto:hello@stewardhome.ai">Contact</a>
   </div>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 var SUPABASE_URL = 'https://vvlypugodfrrfusjzzrw.supabase.co';
 var SUPABASE_ANON_KEY = 'sb_publishable_xTo7yRRAptiY5nyer-sUxw_IKc3-p3u';
@@ -335,11 +335,4 @@ async function handleSubmit(e) {
       var result = await sb.from('waitlist').insert({ email: email, source: window.location.href, referrer: document.referrer || null, utm_source: params.get('utm_source'), utm_medium: params.get('utm_medium'), utm_campaign: params.get('utm_campaign') });
       if (result.error && result.error.code !== '23505') throw result.error;
     } else { console.log('Waitlist signup:', email, new Date().toISOString()); }
-    form.style.display = 'none';
-    document.getElementById('waitlistNote').style.display = 'none';
-    err.style.display = 'none';
-    var msg = document.getElementById('successMsg');
-    msg.style.display = 'block'; msg.style.animation = 'fadeUp 0.6s ease forwards';
-  } catch (error) {
-    console.error('Signup error:', error);
-    err.textContent = 'Something wen
+    window.location.href = '/welcome.html';
