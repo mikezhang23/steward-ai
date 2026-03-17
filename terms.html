@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Terms of Service | Steward AI</title>
+<meta name="description" content="Steward AI terms of service for our AI-powered home maintenance concierge.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  color-scheme: light only;
+  --ink: #1a1a1f; --cream: #faf8f4; --cream-alt: #f3efe7;
+  --stone: #ddd8ce; --sage: #4a6340; --sage-deep: #3d5434;
+  --heading: #1a1a1f; --body: #3a3a40; --body-secondary: #555550;
+  --body-light: #77736a;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+}
+html { background: #faf8f4; }
+body {
+  font-family: var(--sans); color: var(--body);
+  background: #faf8f4; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; font-size: 16px; color-scheme: light only;
+  min-height: 100svh; display: flex; flex-direction: column;
+}
+
+nav {
+  padding: 18px 24px; display: flex; justify-content: space-between;
+  align-items: center; background: rgba(250, 248, 244, 0.6);
+  border-bottom: 1px solid var(--stone);
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 600;
+  color: var(--ink); text-decoration: none;
+}
+.nav-logo span { color: var(--sage-deep); }
+.nav-cta {
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #fff; background: var(--ink); border: none;
+  padding: 11px 22px; cursor: pointer; transition: all 0.3s ease;
+  text-decoration: none;
+}
+.nav-cta:hover { background: var(--sage-deep); }
+
+main {
+  flex: 1; max-width: 680px; width: 100%;
+  margin: 0 auto; padding: 72px 24px 100px;
+}
+
+.page-eyebrow {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 20px;
+}
+
+h1 {
+  font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 400; line-height: 1.15; color: var(--heading);
+  margin-bottom: 12px;
+}
+
+.effective-date {
+  font-size: 0.88rem; color: var(--body-light); margin-bottom: 48px;
+}
+
+.summary-box {
+  background: rgba(74, 99, 64, 0.06);
+  border-left: 3px solid var(--sage);
+  padding: 18px 22px; margin-bottom: 48px;
+  font-size: 0.98rem; color: var(--body);
+  line-height: 1.7;
+}
+.summary-box strong {
+  color: var(--sage); font-weight: 600;
+}
+
+h2 {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 600;
+  color: var(--heading); margin-top: 40px; margin-bottom: 14px;
+}
+
+p {
+  font-size: 0.98rem; line-height: 1.8; color: var(--body-secondary);
+  margin-bottom: 14px;
+}
+
+ul {
+  margin: 8px 0 16px 20px; color: var(--body-secondary);
+  font-size: 0.98rem; line-height: 1.8;
+}
+li { margin-bottom: 4px; }
+li::marker { color: var(--sage); }
+
+a { color: var(--sage-deep); text-decoration: none; transition: color 0.3s ease; }
+a:hover { color: var(--sage); }
+
+.divider {
+  height: 1px; background: linear-gradient(90deg, var(--stone), transparent);
+  margin: 48px 0 0;
+}
+
+footer {
+  border-top: 1px solid var(--stone);
+  padding: 24px; text-align: center;
+}
+.footer-logo {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 10px;
+}
+.footer-logo span { color: var(--sage-deep); }
+.footer-links { display: flex; justify-content: center; gap: 24px; }
+.footer-links a {
+  font-size: 0.82rem; color: var(--body-light);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-links a:hover { color: var(--sage); }
+
+@media (max-width: 600px) {
+  main { padding: 48px 20px 72px; }
+  .summary-box { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Steward<span>AI</span></a>
+  <a href="/#waitlist" class="nav-cta">Join Waitlist</a>
+</nav>
+
+<main>
+  <div class="page-eyebrow">Legal</div>
+  <h1>Terms of Service</h1>
+  <p class="effective-date">Last updated March 17, 2026</p>
+
+  <div class="summary-box">
+    <strong>The short version:</strong> You text us about a home repair. We tell you the fair price and coach you through it for free. If you want us to handle everything, that costs $49 per incident. You can stop anytime by texting STOP.
+  </div>
+
+  <h2>1. Service Overview</h2>
+  <p>Steward ("we," "us," "our") provides an AI-powered home maintenance concierge service via SMS. By texting our phone number or using our service, you agree to these terms.</p>
+
+  <h2>2. How the Service Works</h2>
+  <p>You text our number to describe a home maintenance issue. We provide pricing intelligence, scope validation, and coaching at no cost. Optional concierge services (contractor coordination, outbound calls) are available for a per-incident fee.</p>
+
+  <h2>3. SMS Messaging</h2>
+  <p>By texting our number, you consent to receive SMS messages from Steward related to your home maintenance inquiries. Message and data rates may apply. Message frequency varies based on your requests. Text STOP to opt out at any time. Text HELP for assistance.</p>
+
+  <h2>4. Pricing</h2>
+  <p>Free services: pricing briefings, scope validation, real-time coaching, negotiation guidance.</p>
+  <p>Paid services: concierge coordination at $49 (standard) or $79 (priority) per incident. You will always be informed of the cost and asked to confirm before any paid service is initiated.</p>
+
+  <h2>5. No Guarantee of Outcomes</h2>
+  <p>Steward provides information and coordination assistance. We do not guarantee contractor availability, pricing accuracy, work quality, or project outcomes. Our pricing estimates are based on market data and may not reflect every contractor's pricing.</p>
+
+  <h2>6. Photos and Data</h2>
+  <p>Photos you send are stored securely and used to assess your home maintenance issue. We do not sell your photos or personal data to third parties. See our <a href="/privacy.html">Privacy Policy</a> for details.</p>
+
+  <h2>7. Not a Licensed Contractor</h2>
+  <p>Steward is an information and coordination service. We are not a licensed contractor, and our guidance does not replace professional inspection or advice. For emergencies involving safety risks, contact your local emergency services.</p>
+
+  <h2>8. Limitation of Liability</h2>
+  <p>Steward is provided "as is." We are not liable for any damages arising from contractor work, pricing discrepancies, or reliance on our recommendations. Our total liability is limited to the fees you paid for the specific incident in question.</p>
+
+  <h2>9. Changes to Terms</h2>
+  <p>We may update these terms at any time. Continued use of the service after changes constitutes acceptance.</p>
+
+  <h2>10. Contact</h2>
+  <p>Questions about these terms? Text us or email <a href="mailto:support@stewardhome.ai">support@stewardhome.ai</a>.</p>
+
+  <div class="divider"></div>
+</main>
+
+<footer>
+  <div class="footer-logo">Steward<span>AI</span></div>
+  <div class="footer-links">
+    <a href="/#pricing">Pricing</a>
+    <a href="mailto:hello@stewardhome.ai">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+</footer>
+
+</body>
+</html>
